@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class FakeCoursesRepository @Inject constructor(): CoursesRepository {
     override suspend fun getAll(): Flow<List<Course>> {
-        return MutableStateFlow(listOf(Course("講義１"),Course("講義２"),Course("講義３")))
+        return MutableStateFlow(listOf(Course("A0234567","講義１"),Course("B12300001","講義２"),Course("A1231234","講義３")))
     }
 
 }
