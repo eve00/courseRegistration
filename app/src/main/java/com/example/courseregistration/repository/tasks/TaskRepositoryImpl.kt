@@ -1,14 +1,11 @@
-package com.example.courseregistration.repository
+package com.example.courseregistration.repository.tasks
 
-import com.example.courseregistration.data.Task
-import com.example.courseregistration.data.TaskDao
-import dagger.Binds
-import dagger.Provides
+import com.example.courseregistration.data.tasks.Task
+import com.example.courseregistration.data.tasks.TaskDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import javax.inject.Singleton
 
 class TaskRepositoryImpl @Inject constructor(
     private val dao: TaskDao

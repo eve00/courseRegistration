@@ -1,4 +1,4 @@
-package com.example.courseregistration.data
+package com.example.courseregistration.data.tasks
 
 import androidx.room.Dao
 import androidx.room.Delete

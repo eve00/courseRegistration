@@ -1,4 +1,4 @@
-package com.example.courseregistration.data
+package com.example.courseregistration.data.tasks
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

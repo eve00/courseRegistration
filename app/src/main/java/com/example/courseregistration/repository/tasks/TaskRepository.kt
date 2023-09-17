@@ -1,7 +1,6 @@
-package com.example.courseregistration.repository
+package com.example.courseregistration.repository.tasks
 
-import com.example.courseregistration.data.Task
-import dagger.Binds
+import com.example.courseregistration.data.tasks.Task
 import kotlinx.coroutines.flow.Flow
 
 interface TaskRepository {

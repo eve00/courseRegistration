@@ -1,7 +1,5 @@
-package com.example.courseregistration.data
+package com.example.courseregistration.data.tasks
 
-import android.os.Parcel
-import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
