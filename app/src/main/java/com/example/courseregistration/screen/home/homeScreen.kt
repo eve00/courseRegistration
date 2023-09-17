@@ -22,6 +22,7 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val courses = viewModel.courses.collectAsStateWithLifecycle()
+    val studentId = viewModel.studentId
 
     Scaffold(
        topBar = {
@@ -30,6 +31,7 @@ fun HomeScreen(
     ) { innerPadding ->
         Surface(modifier.padding(innerPadding)) {
             Column {
+                Text(text = studentId)
                 LazyColumn {
                     items(courses.value){course ->
                         Text(text = course.title)
