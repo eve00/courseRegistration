@@ -7,7 +7,7 @@ object Destinations {
     const val HOME_ROUTE = "home"
 }
 
-class SampleNavigationActions(navController: NavHostController){
+class CourseRegistrationNavigationActions(navController: NavHostController){
     val navigateToHome: () -> Unit = {
         navController.navigate(Destinations.HOME_ROUTE){
             popUpTo(navController.graph.id){

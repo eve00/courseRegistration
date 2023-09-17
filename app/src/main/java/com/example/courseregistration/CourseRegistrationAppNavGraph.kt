@@ -11,7 +11,7 @@ import com.example.courseregistration.screen.home.HomeScreen
 
 
 @Composable
-fun SampleNavGraph(
+fun CourseRegistrationNavGraph(
     modifier: Modifier = Modifier.padding(16.dp),
     navController: NavHostController,
     startDestination: String = Destinations.HOME_ROUTE,
