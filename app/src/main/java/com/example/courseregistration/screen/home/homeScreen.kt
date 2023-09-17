@@ -3,6 +3,7 @@ package com.example.courseregistration.screen.home
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -18,9 +19,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 @Composable
 fun HomeScreen(
     modifier: Modifier,
-    viewModel: homeViewModel = hiltViewModel(),
+    viewModel: HomeViewModel = hiltViewModel(),
 ) {
-    val tasks = viewModel.tasks.collectAsStateWithLifecycle()
+    val courses = viewModel.courses.collectAsStateWithLifecycle()
 
     Scaffold(
        topBar = {
@@ -30,6 +31,9 @@ fun HomeScreen(
         Surface(modifier.padding(innerPadding)) {
             Column {
                 LazyColumn {
+                    items(courses.value){course ->
+                        Text(text = course.title)
+                    }
 
                 }
             }

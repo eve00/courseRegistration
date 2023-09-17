@@ -2,8 +2,8 @@ package com.example.courseregistration.screen.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.courseregistration.data.Task
-import com.example.courseregistration.repository.TaskRepository
+import com.example.courseregistration.data.courses.Course
+import com.example.courseregistration.repository.courses.CoursesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,34 +13,15 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class homeViewModel @Inject constructor(
-    private val repository: TaskRepository
+class HomeViewModel @Inject constructor(
+    private val repository: CoursesRepository
 ) : ViewModel() {
-    private val _tasks = MutableStateFlow(emptyList<Task>())
-    val tasks: StateFlow<List<Task>> = _tasks.asStateFlow()
+    private val _courses = MutableStateFlow(emptyList<Course>())
+    val courses: StateFlow<List<Course>> = _courses.asStateFlow()
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.getAll().collect{tasks ->
-                _tasks.value = tasks
+            repository.getAll().collect{courses ->
+                _courses.value = courses
             }
         }
-    }
-
-    fun createTask(title:String, content:String){
-        viewModelScope.launch(Dispatchers.IO) {
-        repository.create(title,content)
-        }
-    }
-
-    fun updateTask(task: Task, title:String, content:String = task.content ?: ""){
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.update(task, title, content)
-        }
-    }
-
-    fun deleteTask(task: Task){
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.delete(task)
-        }
-    }
-}
+    }}

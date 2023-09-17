@@ -1,5 +1,9 @@
 package com.example.courseregistration.repository
 
+import com.example.courseregistration.repository.courses.CoursesRepository
+import com.example.courseregistration.repository.courses.FakeCoursesRepository
+import com.example.courseregistration.repository.tasks.TaskRepository
+import com.example.courseregistration.repository.tasks.TaskRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -11,5 +15,11 @@ import javax.inject.Singleton
 abstract class RepositoryModule {
     @Binds
     @Singleton
+    abstract fun bindFakeCourseRepository(fakeImpl: FakeCoursesRepository): CoursesRepository
+
+    @Binds
+    @Singleton
     abstract fun bindTaskRepository(impl: TaskRepositoryImpl): TaskRepository
+
+
 }
