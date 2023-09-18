@@ -1,5 +1,6 @@
 package com.example.courseregistration.screen.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.courseregistration.auth.UserAuthorization
@@ -21,23 +22,33 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val coursesRepository: CoursesRepository,
     private val courseRegistrationsRepository: CourseRegistrationsRepository,
-     userAuth:UserAuthorization
+    userAuth: UserAuthorization
 ) : ViewModel() {
     val studentId = userAuth.getStudentId()
     private val _courses = MutableStateFlow(emptyList<Course>())
     val courses: StateFlow<List<Course>> = _courses.asStateFlow()
     private val _courseRegistrations = MutableStateFlow(emptyList<CourseRegistration>())
-    val courseRegistrations: StateFlow<List<CourseRegistration>> = _courseRegistrations.asStateFlow()
+    val courseRegistrations: StateFlow<List<CourseRegistration>> =
+        _courseRegistrations.asStateFlow()
+
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            coursesRepository.getAll().collect{ courses ->
+            coursesRepository.getAll().collect { courses ->
                 _courses.value = courses
             }
 
         }
         viewModelScope.launch(Dispatchers.IO) {
-            courseRegistrationsRepository.getAll().collect{ courseRegistrations ->
+            courseRegistrationsRepository.getAll().collect { courseRegistrations ->
                 _courseRegistrations.value = courseRegistrations
             }
         }
-    }}
+    }
+
+    fun createCourseRegistration(){
+        viewModelScope.launch(Dispatchers.IO) {
+            courseRegistrationsRepository.create(studentId, "講義N")
+        }
+        Log.i("cR","${courseRegistrations.value}")
+    }
+}
