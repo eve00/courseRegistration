@@ -1,46 +1,54 @@
 package com.example.courseregistration.screen.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.courseregistration.data.Task
-import com.example.courseregistration.repository.TaskRepository
+import com.example.courseregistration.auth.UserAuthorization
+import com.example.courseregistration.data.courseRegistrations.CourseRegistration
+import com.example.courseregistration.data.courses.Course
+import com.example.courseregistration.repository.courseRegistrations.CourseRegistrationsRepository
+import com.example.courseregistration.repository.courses.CoursesRepository
+import com.example.courseregistration.repository.students.StudentsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.invoke
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class homeViewModel @Inject constructor(
-    private val repository: TaskRepository
+class HomeViewModel @Inject constructor(
+    private val coursesRepository: CoursesRepository,
+    private val courseRegistrationsRepository: CourseRegistrationsRepository,
+    userAuth: UserAuthorization
 ) : ViewModel() {
-    private val _tasks = MutableStateFlow(emptyList<Task>())
-    val tasks: StateFlow<List<Task>> = _tasks.asStateFlow()
+    val studentId = userAuth.getStudentId()
+    private val _courses = MutableStateFlow(emptyList<Course>())
+    val courses: StateFlow<List<Course>> = _courses.asStateFlow()
+    private val _courseRegistrations = MutableStateFlow(emptyList<CourseRegistration>())
+    val courseRegistrations: StateFlow<List<CourseRegistration>> =
+        _courseRegistrations.asStateFlow()
+
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.getAll().collect{tasks ->
-                _tasks.value = tasks
+            coursesRepository.getAll().collect { courses ->
+                _courses.value = courses
+            }
+
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            courseRegistrationsRepository.getAll().collect { courseRegistrations ->
+                _courseRegistrations.value = courseRegistrations
             }
         }
     }
 
-    fun createTask(title:String, content:String){
+    fun createCourseRegistration(){
         viewModelScope.launch(Dispatchers.IO) {
-        repository.create(title,content)
+            courseRegistrationsRepository.create(studentId, "講義N")
         }
-    }
-
-    fun updateTask(task: Task, title:String, content:String = task.content ?: ""){
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.update(task, title, content)
-        }
-    }
-
-    fun deleteTask(task: Task){
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.delete(task)
-        }
+        Log.i("cR","${courseRegistrations.value}")
     }
 }
