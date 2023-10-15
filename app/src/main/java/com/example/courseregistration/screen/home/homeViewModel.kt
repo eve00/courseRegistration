@@ -8,13 +8,11 @@ import com.example.courseregistration.data.courseRegistrations.CourseRegistratio
 import com.example.courseregistration.data.courses.Course
 import com.example.courseregistration.repository.courseRegistrations.CourseRegistrationsRepository
 import com.example.courseregistration.repository.courses.CoursesRepository
-import com.example.courseregistration.repository.students.StudentsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.invoke
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -49,6 +47,5 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             courseRegistrationsRepository.create(studentId, "講義N")
         }
-        Log.i("cR","${courseRegistrations.value}")
     }
 }
