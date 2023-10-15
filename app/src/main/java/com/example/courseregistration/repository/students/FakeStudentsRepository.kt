@@ -1,6 +1,6 @@
 package com.example.courseregistration.repository.students
 
-import com.example.courseregistration.data.students.Student
+import com.example.courseregistration.data.users.Student
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject

@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.kapt)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.ksp)
+    id("com.google.gms.google-services")
 }
 
 kapt {
@@ -71,6 +72,11 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>()
     }
 
 dependencies {
+    //firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
+
     kapt(libs.hilt.android.compiler)
 
     implementation(libs.core.ktx)

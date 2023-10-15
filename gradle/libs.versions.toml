@@ -17,6 +17,7 @@ hiltNavigationCompose = "1.0.0"
 lifecycle-runtime-compose = "2.6.0-alpha02"
 ksp = "1.8.10-1.0.9"
 room = "2.5.0"
+firebase-bom= "32.1.1"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -47,10 +48,14 @@ androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "a
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 
 #room
-
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room"}
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room"}
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room"}
+
+#firebase
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth-ktx" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore-ktx" }
 
 #hilt
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
