@@ -27,11 +27,10 @@ fun HomeScreen(
     modifier: Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
-    val courses by viewModel.courses.collectAsStateWithLifecycle()
-    val courseRegistrations by viewModel.courseRegistrations.collectAsStateWithLifecycle()
-    val studentId = viewModel.studentId
+    val courses = viewModel.courses
 
-
+    val applications by viewModel.applications.collectAsStateWithLifecycle()
+    
     Scaffold(
        topBar = {
                 TopAppBar(title = { Text("courseRegistration App") })
@@ -39,34 +38,15 @@ fun HomeScreen(
     ) { innerPadding ->
         Surface(modifier.padding(innerPadding)) {
             Column {
-                Text(text = studentId)
-                LazyColumn(Modifier.background(color = Color.Cyan)) {
-                    items(courses){course ->
-                        Text(text = course.title)
+               Button(onClick = { viewModel.createCourseRegistration(courses[1].courseId)}) {
+                   Text(text = "apply")
+               }
+                LazyColumn{
+                    items(applications){application ->
+                        Text(application.courseId.toString())
                     }
                 }
-                Text(text = courseRegistrations.size.toString())
-                Button(onClick = { viewModel.createCourseRegistration() }) {
-                    Text(text = "ADD")
-                }
-                LazyColumn(Modifier.background(color = Color.LightGray)) {
-                    items(courseRegistrations){courseRegistration ->
-                        courseRegistrationItem(courseRegistration = courseRegistration)
-
-                    }
-                }
-
             }
         }
-
-    }
-}
-
-@Composable
-fun courseRegistrationItem(courseRegistration: CourseRegistration){
-    Row() {
-        Text(text = courseRegistration.studentId)
-        Text(text = courseRegistration.courseId)
-        Text(text = courseRegistration.createdAt.toString())
     }
 }

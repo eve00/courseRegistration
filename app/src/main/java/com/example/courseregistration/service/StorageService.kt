@@ -4,6 +4,7 @@ import com.example.courseregistration.data.applications.Application
 import com.example.courseregistration.data.applications.ApplicationId
 import com.example.courseregistration.data.courseRegistrations.CourseRegistration
 import com.example.courseregistration.data.courses.CourseId
+import com.example.courseregistration.service.impl.ApplicationData
 import kotlinx.coroutines.flow.Flow
 
 interface StorageService {
