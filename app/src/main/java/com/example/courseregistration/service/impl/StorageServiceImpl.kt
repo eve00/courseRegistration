@@ -1,20 +1,17 @@
 package com.example.courseregistration.service.impl
 
+import android.content.ContentValues.TAG
 import android.util.Log
+import com.example.courseregistration.data.Id
 import com.example.courseregistration.data.applications.Application
-import com.example.courseregistration.data.applications.ApplicationId
-import com.example.courseregistration.data.courses.CourseId
-import com.example.courseregistration.data.users.Uid
+import com.example.courseregistration.data.courses.Course
 import com.example.courseregistration.service.AccountService
 import com.example.courseregistration.service.StorageService
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.dataObjects
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 
@@ -32,14 +29,28 @@ class StorageServiceImpl @Inject constructor(
         }
 
 
-    override suspend fun create(courseId: CourseId) {
+    override suspend fun create(courseId: Id<Course>) {
         val id = firestore.collection(APPLICATION_COLELCTION).document().id
-        val application = ApplicationData(id, auth.currentUserId.toString(), courseId.toString())
+        val application = ApplicationData(
+            id,
+            auth.currentUserId.toString(),
+            courseId.toString(),
+            System.currentTimeMillis()
+        )
         firestore.collection(APPLICATION_COLELCTION).document().set(application)
+            .addOnSuccessListener { documentReference ->
+                Log.d(TAG, "DocumentSnapshot written with ID: $documentReference")
+            }
+            .addOnFailureListener { e ->
+                Log.w(TAG, "Error adding document", e)
+            }
+
     }
 
-    override suspend fun delete(applicationId: ApplicationId) {
-        firestore.collection(APPLICATION_COLELCTION).document().delete().await()
+    override suspend fun delete(applicationId: Id<Application>) {
+        firestore.collection(APPLICATION_COLELCTION).document(applicationId.toString()).delete()
+            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
     }
 
     companion object {
@@ -52,13 +63,14 @@ data class ApplicationData(
     val applicationId: String = "",
     val studentId: String = "",
     val courseId: String = "",
+    val createdAt: Long = 0L,
 )
 
 fun mapToApplication(data: List<ApplicationData>): List<Application> =
     data.map { data ->
         Application(
-            ApplicationId(data.applicationId),
-            Uid(data.studentId),
-            CourseId(data.courseId)
+            Id(data.applicationId),
+            Id(data.studentId),
+            Id(data.courseId)
         )
     }

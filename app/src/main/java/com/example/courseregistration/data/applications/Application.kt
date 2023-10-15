@@ -1,13 +1,13 @@
 package com.example.courseregistration.data.applications
 
-import com.example.courseregistration.data.courses.CourseId
-import com.example.courseregistration.data.users.Uid
+import com.example.courseregistration.data.Id
+import com.example.courseregistration.data.courses.Course
+import com.example.courseregistration.data.users.User
 
 data class Application (
-    val applicationId: ApplicationId,
-    val studentId: Uid,
-    val courseId: CourseId,
+    val applicationId: Id<Application>,
+    val studentId: Id<User>,
+    val courseId: Id<Course>,
 )
 
-data class ApplicationId(val value: String)
 

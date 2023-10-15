@@ -1,9 +1,8 @@
 package com.example.courseregistration.repository.applications
 
-import android.util.Log
+import com.example.courseregistration.data.Id
 import com.example.courseregistration.data.applications.Application
-import com.example.courseregistration.data.applications.ApplicationId
-import com.example.courseregistration.data.courses.CourseId
+import com.example.courseregistration.data.courses.Course
 import com.example.courseregistration.service.StorageService
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -15,12 +14,12 @@ class ApplicationsRepositoryImpl @Inject constructor(
          db.applications
 
 
-    override suspend fun createApplication(courseId: CourseId) {
+    override suspend fun createApplication(courseId: Id<Course>) {
         db.create(courseId)
 
     }
 
-    override suspend fun deleteApplication(applicationId: ApplicationId) {
+    override suspend fun deleteApplication(applicationId: Id<Application>) {
         db.delete(applicationId)
     }
 }

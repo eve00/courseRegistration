@@ -1,8 +1,9 @@
 package com.example.courseregistration.data.courses
 
+import com.example.courseregistration.data.Id
+
 data class Course(
-    val courseId: CourseId,
+    val courseId: Id<Course>,
     val title: String
 )
 
-data class CourseId (val value: String)
