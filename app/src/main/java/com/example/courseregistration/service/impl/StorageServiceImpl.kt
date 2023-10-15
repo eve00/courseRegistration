@@ -1,8 +1,8 @@
 package com.example.courseregistration.service.impl
 
-import androidx.compose.ui.input.key.Key.Companion.I
 import com.example.courseregistration.data.applications.Application
-import com.example.courseregistration.data.courseRegistrations.CourseRegistration
+import com.example.courseregistration.data.applications.ApplicationId
+import com.example.courseregistration.data.courses.CourseId
 import com.example.courseregistration.service.AccountService
 import com.example.courseregistration.service.StorageService
 import com.google.firebase.firestore.FirebaseFirestore
@@ -21,15 +21,15 @@ class StorageServiceImpl @Inject constructor(
     override val applications: Flow<List<Application>>
         get() =
             auth.currentUser.flatMapLatest { user ->
-                firestore.collection(APPLICATION_COLELCTION).whereEqualTo(USER_ID_FIELD, user.id).dataObjects()
+                firestore.collection(APPLICATION_COLELCTION).whereEqualTo(USER_ID_FIELD, user.uid).dataObjects()
             }
-    override suspend fun create(courseId: String) {
+    override suspend fun create(courseId: CourseId) {
         val id = firestore.collection(APPLICATION_COLELCTION).document().id
-        val application = Application(id, auth.currentUserId, courseId)
+        val application = Application(id as ApplicationId, auth.currentUserId, courseId)
         firestore.collection(APPLICATION_COLELCTION).document().set(application)
     }
 
-    override suspend fun delete(applicationId: String) {
+    override suspend fun delete(applicationId: ApplicationId) {
         firestore.collection(APPLICATION_COLELCTION).document().delete().await()
     }
 
