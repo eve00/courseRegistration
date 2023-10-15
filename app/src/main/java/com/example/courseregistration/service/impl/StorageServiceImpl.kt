@@ -23,13 +23,13 @@ class StorageServiceImpl @Inject constructor(
             auth.currentUser.flatMapLatest { user ->
                 firestore.collection(APPLICATION_COLELCTION).whereEqualTo(USER_ID_FIELD, user.id).dataObjects()
             }
-    override suspend fun createApplication(courseId: String) {
+    override suspend fun create(courseId: String) {
         val id = firestore.collection(APPLICATION_COLELCTION).document().id
         val application = Application(id, auth.currentUserId, courseId)
         firestore.collection(APPLICATION_COLELCTION).document().set(application)
     }
 
-    override suspend fun deleteApplication(applicationId: String) {
+    override suspend fun delete(applicationId: String) {
         firestore.collection(APPLICATION_COLELCTION).document().delete().await()
     }
 

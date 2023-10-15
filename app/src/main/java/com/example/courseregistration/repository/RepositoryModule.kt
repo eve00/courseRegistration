@@ -1,7 +1,7 @@
 package com.example.courseregistration.repository
 
-import com.example.courseregistration.repository.courseRegistrations.CourseRegistrationsRepository
-import com.example.courseregistration.repository.courseRegistrations.FakeCourseResigtrationsRepository
+import com.example.courseregistration.repository.applications.ApplicationsRepository
+import com.example.courseregistration.repository.applications.ApplicationsRepositoryImpl
 import com.example.courseregistration.repository.courses.CoursesRepository
 import com.example.courseregistration.repository.courses.FakeCoursesRepository
 import com.example.courseregistration.repository.students.FakeStudentsRepository
@@ -26,8 +26,7 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindFakeCourseRegistrationsRepository(fakeImpl: FakeCourseResigtrationsRepository): CourseRegistrationsRepository
-
+    abstract fun bindApplicationReository(impl: ApplicationsRepositoryImpl): ApplicationsRepository
     @Binds
     @Singleton
     abstract fun bindTaskRepository(impl: TaskRepositoryImpl): TaskRepository
