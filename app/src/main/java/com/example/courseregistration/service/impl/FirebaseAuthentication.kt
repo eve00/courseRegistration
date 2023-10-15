@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class AccountServiceImpl @Inject constructor(private val auth: FirebaseAuth) : AccountService {
+class FirebaseAuthentication @Inject constructor(private val auth: FirebaseAuth) : AccountService {
 
     override val currentUserId: Id<User>
         get() = Id(auth.currentUser?.uid ?: "anonymous")

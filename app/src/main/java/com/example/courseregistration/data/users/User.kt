@@ -6,9 +6,3 @@ data class User(
     val uid: Id<User>,
     val isAnonymous: Boolean = true
 )
-
-
-data class Student (
-    val id: String,
-    val name: String
-)
