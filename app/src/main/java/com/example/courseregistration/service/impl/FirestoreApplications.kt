@@ -7,20 +7,15 @@ import com.example.courseregistration.data.applications.Application
 import com.example.courseregistration.data.courses.Course
 import com.example.courseregistration.service.AccountService
 import com.example.courseregistration.service.StorageService
-import com.google.firebase.Timestamp
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ServerTimestamp
 import com.google.firebase.firestore.ktx.dataObjects
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
-import java.util.Date
 import javax.inject.Inject
 
 
-class StorageServiceImpl @Inject constructor(
+class FirestoreApplications @Inject constructor(
     private val firestore: FirebaseFirestore,
     private val auth: AccountService,
 ) :

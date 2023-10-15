@@ -2,8 +2,8 @@ package com.example.courseregistration.service.module
 
 import com.example.courseregistration.service.AccountService
 import com.example.courseregistration.service.StorageService
-import com.example.courseregistration.service.impl.AccountServiceImpl
-import com.example.courseregistration.service.impl.StorageServiceImpl
+import com.example.courseregistration.service.impl.FirebaseAuthentication
+import com.example.courseregistration.service.impl.FirestoreApplications
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,10 +14,10 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 abstract class ServiceModule {
     @Binds
-    abstract fun provideAccountService(impl: AccountServiceImpl): AccountService
+    abstract fun provideAccountService(impl: FirebaseAuthentication): AccountService
 
 
     @Binds
-    abstract fun provideStorageService(impl: StorageServiceImpl): StorageService
+    abstract fun provideStorageService(impl: FirestoreApplications): StorageService
 
 }
