@@ -54,8 +54,8 @@ room-ktx = { module = "androidx.room:room-ktx", version.ref = "room"}
 
 #firebase
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
-firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
-firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth-ktx" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore-ktx" }
 
 #hilt
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
