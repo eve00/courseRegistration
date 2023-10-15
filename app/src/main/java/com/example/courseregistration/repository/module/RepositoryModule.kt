@@ -1,4 +1,4 @@
-package com.example.courseregistration.repository
+package com.example.courseregistration.repository.module
 
 import com.example.courseregistration.repository.applications.ApplicationsRepository
 import com.example.courseregistration.repository.applications.ApplicationsRepositoryImpl
