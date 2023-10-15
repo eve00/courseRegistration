@@ -6,6 +6,7 @@ import com.example.courseregistration.data.Id
 import com.example.courseregistration.data.applications.Application
 import com.example.courseregistration.data.courses.Course
 import com.example.courseregistration.repository.applications.ApplicationsRepository
+import com.example.courseregistration.service.AccountService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +18,9 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val applicationsRepository: ApplicationsRepository,
+    private val auth: AccountService
 ) : ViewModel() {
+    val currentUserId = auth.currentUserId.value
 
     private val _applications = MutableStateFlow(emptyList<Application>())
     val applications: StateFlow<List<Application>> =

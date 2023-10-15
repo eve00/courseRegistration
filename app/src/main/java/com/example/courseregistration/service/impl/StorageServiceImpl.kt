@@ -7,11 +7,16 @@ import com.example.courseregistration.data.applications.Application
 import com.example.courseregistration.data.courses.Course
 import com.example.courseregistration.service.AccountService
 import com.example.courseregistration.service.StorageService
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ServerTimestamp
 import com.google.firebase.firestore.ktx.dataObjects
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import java.util.Date
 import javax.inject.Inject
 
 
@@ -20,24 +25,25 @@ class StorageServiceImpl @Inject constructor(
     private val auth: AccountService,
 ) :
     StorageService {
+    @OptIn(ExperimentalCoroutinesApi::class)
     override val applications: Flow<List<Application>>
-        get() = auth.currentUser.flatMapLatest { user ->
+        get() =
 
-            firestore.collection(APPLICATION_COLELCTION).whereEqualTo(STUDENT_ID_FIELD, "anonymous")
-                .dataObjects<ApplicationData>()
-                .map { data -> mapToApplication(data) }
-        }
+                firestore.collection(APPLICATION_COLLELCTION)
+                    .whereEqualTo(STUDENT_ID_FIELD, auth.currentUserId.value)
+                    .dataObjects<ApplicationData>()
+                    .map { data -> mapToApplication(data) }
+
 
 
     override suspend fun create(courseId: Id<Course>) {
-        val id = firestore.collection(APPLICATION_COLELCTION).document().id
+        val id = firestore.collection(APPLICATION_COLLELCTION).document().id
         val application = ApplicationData(
             id,
-            auth.currentUserId.toString(),
-            courseId.toString(),
-            System.currentTimeMillis()
+            auth.currentUserId.value,
+            courseId.value
         )
-        firestore.collection(APPLICATION_COLELCTION).document().set(application)
+        firestore.collection(APPLICATION_COLLELCTION).document(id).set(application)
             .addOnSuccessListener { documentReference ->
                 Log.d(TAG, "DocumentSnapshot written with ID: $documentReference")
             }
@@ -48,14 +54,14 @@ class StorageServiceImpl @Inject constructor(
     }
 
     override suspend fun delete(applicationId: Id<Application>) {
-        firestore.collection(APPLICATION_COLELCTION).document(applicationId.toString()).delete()
+        firestore.collection(APPLICATION_COLLELCTION).document(applicationId.value).delete()
             .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
     }
 
     companion object {
         private const val STUDENT_ID_FIELD = "studentId"
-        private const val APPLICATION_COLELCTION = "applications"
+        private const val APPLICATION_COLLELCTION = "applications"
     }
 }
 
@@ -63,7 +69,6 @@ data class ApplicationData(
     val applicationId: String = "",
     val studentId: String = "",
     val courseId: String = "",
-    val createdAt: Long = 0L,
 )
 
 fun mapToApplication(data: List<ApplicationData>): List<Application> =

@@ -24,7 +24,6 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val courses = viewModel.courses
-
     val applications by viewModel.applications.collectAsStateWithLifecycle()
     
     Scaffold(
@@ -34,12 +33,13 @@ fun HomeScreen(
     ) { innerPadding ->
         Surface(modifier.padding(innerPadding)) {
             Column {
+                Text(viewModel.currentUserId)
                Button(onClick = { viewModel.createCourseRegistration(courses[1].courseId)}) {
                    Text(text = "apply")
                }
                 LazyColumn{
                     items(applications){application ->
-                        Text(application.courseId.toString())
+                        Text(application.courseId.value)
                     }
                 }
             }
