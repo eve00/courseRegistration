@@ -1,54 +1,44 @@
 package com.example.courseregistration.screen.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.courseregistration.auth.UserAuthorization
-import com.example.courseregistration.data.courseRegistrations.CourseRegistration
+import com.example.courseregistration.data.Id
+import com.example.courseregistration.data.applications.Application
 import com.example.courseregistration.data.courses.Course
-import com.example.courseregistration.repository.courseRegistrations.CourseRegistrationsRepository
-import com.example.courseregistration.repository.courses.CoursesRepository
-import com.example.courseregistration.repository.students.StudentsRepository
+import com.example.courseregistration.repository.applications.ApplicationsRepository
+import com.example.courseregistration.service.AccountService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.invoke
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val coursesRepository: CoursesRepository,
-    private val courseRegistrationsRepository: CourseRegistrationsRepository,
-    userAuth: UserAuthorization
+    private val applicationsRepository: ApplicationsRepository,
+    private val auth: AccountService
 ) : ViewModel() {
-    val studentId = userAuth.getStudentId()
-    private val _courses = MutableStateFlow(emptyList<Course>())
-    val courses: StateFlow<List<Course>> = _courses.asStateFlow()
-    private val _courseRegistrations = MutableStateFlow(emptyList<CourseRegistration>())
-    val courseRegistrations: StateFlow<List<CourseRegistration>> =
-        _courseRegistrations.asStateFlow()
+    val currentUserId = auth.currentUserId.value
+
+    private val _applications = MutableStateFlow(emptyList<Application>())
+    val applications: StateFlow<List<Application>> =
+        _applications.asStateFlow()
+
+    val courses: List<Course> = listOf(Course(Id("c001"), "Course1"),Course(Id("c002"), "Course2"),Course(Id("c003"), "Course3"))
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            coursesRepository.getAll().collect { courses ->
-                _courses.value = courses
-            }
-
-        }
-        viewModelScope.launch(Dispatchers.IO) {
-            courseRegistrationsRepository.getAll().collect { courseRegistrations ->
-                _courseRegistrations.value = courseRegistrations
+            applicationsRepository.applications.collect { applications ->
+                _applications.value = applications
             }
         }
     }
 
-    fun createCourseRegistration(){
+    fun createCourseRegistration(courseId: Id<Course>){
         viewModelScope.launch(Dispatchers.IO) {
-            courseRegistrationsRepository.create(studentId, "講義N")
+            applicationsRepository.createApplication(courseId)
         }
-        Log.i("cR","${courseRegistrations.value}")
     }
 }

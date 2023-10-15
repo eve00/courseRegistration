@@ -1,9 +1,12 @@
 package com.example.courseregistration.data.users
 
+import com.example.courseregistration.data.Id
+
 data class User(
-    val id: String = "",
+    val uid: Id<User>,
     val isAnonymous: Boolean = true
 )
+
 
 data class Student (
     val id: String,
