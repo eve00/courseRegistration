@@ -9,7 +9,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.courseregistration.screen.home.HomeScreen
 
-
 @Composable
 fun CourseRegistrationNavGraph(
     modifier: Modifier = Modifier.padding(16.dp),
@@ -20,9 +19,8 @@ fun CourseRegistrationNavGraph(
         navController = navController,
         startDestination = startDestination,
     ) {
-        composable(route = Destinations.HOME_ROUTE){
+        composable(route = Destinations.HOME_ROUTE) {
             HomeScreen(modifier = modifier)
         }
-
     }
 }

@@ -14,7 +14,9 @@ kapt {
     useBuildCache = false
     correctErrorTypes = true
 }
-
+kotlin {
+    jvmToolchain(17)
+}
 
 android {
     namespace = "com.example.courseregistration"
@@ -38,7 +40,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -49,6 +51,7 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+
     buildFeatures {
         compose = true
     }
@@ -72,7 +75,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>()
     }
 
 dependencies {
-    //firebase
+    // firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
@@ -97,11 +100,10 @@ dependencies {
     ksp(libs.room.compiler)
     implementation(libs.room.ktx)
 
-
-    //google-fonts
+    // google-fonts
     implementation(libs.google.fonts)
 
-    //ktlint
+    // ktlint
     ktlint(libs.ktlint) {
         attributes {
             attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
@@ -141,7 +143,6 @@ tasks.register<JavaExec>("ktlintFormat") {
     description = "Check Kotlin code style and format"
     classpath = ktlint
     mainClass.set("com.pinterest.ktlint.Main")
-    jvmArgs("--add-opens=java.base/java.lang=ALL-UNNAMED")
     // see https://pinterest.github.io/ktlint/install/cli/#command-line-usage for more information
     args(
         "-F",

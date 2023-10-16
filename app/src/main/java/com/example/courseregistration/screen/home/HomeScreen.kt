@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
@@ -25,20 +24,20 @@ fun HomeScreen(
 ) {
     val courses = viewModel.courses
     val applications by viewModel.applications.collectAsStateWithLifecycle()
-    
+
     Scaffold(
-       topBar = {
-                TopAppBar(title = { Text("courseRegistration App") })
-       },
+        topBar = {
+            TopAppBar(title = { Text("courseRegistration App") })
+        },
     ) { innerPadding ->
         Surface(modifier.padding(innerPadding)) {
             Column {
                 Text(viewModel.currentUserId)
-               Button(onClick = { viewModel.createCourseRegistration(courses[1].courseId)}) {
-                   Text(text = "apply")
-               }
-                LazyColumn{
-                    items(applications){application ->
+                Button(onClick = { viewModel.createCourseRegistration(courses[1].courseId) }) {
+                    Text(text = "apply")
+                }
+                LazyColumn {
+                    items(applications) { application ->
                         Text(application.courseId.value)
                     }
                 }

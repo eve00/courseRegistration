@@ -6,9 +6,9 @@ import com.example.courseregistration.data.courses.Course
 import kotlinx.coroutines.flow.Flow
 
 interface ApplicationsRepository {
-    val applications : Flow<List<Application>>
+    val applications: Flow<List<Application>>
+
     suspend fun createApplication(courseId: Id<Course>)
+
     suspend fun deleteApplication(applicationId: Id<Application>)
-
-
 }
