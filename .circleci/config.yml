@@ -6,4 +6,9 @@ jobs:
       - image: cimg/android:2023.10
     steps:
       - checkout
-      - run: ./gradlew ktlintFormat
+      - run: ./gradlew androidDependencies
+      - run: ./gradlew --continue ktlintFormat
+
+workflows:
+  jobs:
+    - build
