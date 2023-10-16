@@ -11,5 +11,4 @@ interface AccountService {
     val currentUser: Flow<User>
 
     suspend fun createAnonymousAccount()
-
 }

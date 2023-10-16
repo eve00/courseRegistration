@@ -10,28 +10,27 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class FirebaseAuthentication @Inject constructor(private val auth: FirebaseAuth) : AccountService {
+class FirebaseAuthentication
+    @Inject
+    constructor(private val auth: FirebaseAuth) : AccountService {
+        override val currentUserId: Id<User>
+            get() = Id(auth.currentUser?.uid ?: "anonymous")
 
-    override val currentUserId: Id<User>
-        get() = Id(auth.currentUser?.uid ?: "anonymous")
+        override val hasUser: Boolean
+            get() = auth.currentUser != null
 
-    override val hasUser: Boolean
-        get() = auth.currentUser != null
-
-
-    override val currentUser: Flow<User>
-        get() = callbackFlow {
-            val listener =
-                FirebaseAuth.AuthStateListener { auth ->
-                    this.trySend(auth.currentUser?.let { User(Id(it.uid), it.isAnonymous) } ?: User(Id("")))
+        override val currentUser: Flow<User>
+            get() =
+                callbackFlow {
+                    val listener =
+                        FirebaseAuth.AuthStateListener { auth ->
+                            this.trySend(auth.currentUser?.let { User(Id(it.uid), it.isAnonymous) } ?: User(Id("")))
+                        }
+                    auth.addAuthStateListener(listener)
+                    awaitClose { auth.removeAuthStateListener(listener) }
                 }
-            auth.addAuthStateListener(listener)
-            awaitClose { auth.removeAuthStateListener(listener) }
+
+        override suspend fun createAnonymousAccount() {
+            auth.signInAnonymously().await()
         }
-
-
-    override suspend fun createAnonymousAccount() {
-        auth.signInAnonymously().await()
     }
-
-}

@@ -4,5 +4,5 @@ import com.example.courseregistration.data.Id
 
 data class User(
     val uid: Id<User>,
-    val isAnonymous: Boolean = true
+    val isAnonymous: Boolean = true,
 )
