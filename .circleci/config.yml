@@ -8,7 +8,3 @@ jobs:
       - checkout
       - run: ./gradlew androidDependencies
       - run: ./gradlew --continue ktlintFormat
-
-workflows:
-  jobs:
-    - build
